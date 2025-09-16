@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor Table</title>
+    
+
+    <style>
+    body {
+        background-image: url(movieDbBackground.jpg); /*CSS tells the body of the website to have this as its background image*/
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 100vh;
+        gap: 30px;
+    }
+
+    h1 {
+        background-color: antiquewhite;
+        color: black;
+        padding: 20px;
+        border: 3px solid #333;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    a {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        display: block;
+        height: 10vh;
+        width: 10vh;
+        transition: transform 0.2s ease;
+    }
+
+    a img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    a:hover {
+        transform: scale(1.1);
+    }
+    table {
+        border-collapse: collapse;
+        margin: 20px;
+        background-color: white;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .table_container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 55px;
+    }
+
+    .searchBar {
+        position: relative;
+        top: auto;
+        left: auto;/*Magic numbers*/
+
+        border-radius: 2vh;
+        border-width: 0.5vh;
+        border-color: black;
+        border-style: ridge;
+        width: 34vh;
+    }
+
+    .dropdown_container {
+        position: relative;
+        top: auto;
+        left: auto;
+    }
+
+    
+
+    .controls_container {
+        position: absolute;
+        top: 14vh;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.425);
+        padding: 5px 30px;
+        border-radius: 15px;
+        width: 600px;
+        height: 80px; 
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    label[for="dropDownSortMenu"] {
+        color: white;
+    }
+
+    th, td {
+        padding: 12px 12px;
+    }
+    
+    tr {
+        transition-duration: 0.1s;
+    }
+
+    tr:hover {
+        transform: scale(1.01);
+        background-color: rgba(237, 232, 208, 0.8) !important; /*overrides grid highlighter rule below*/
+    }
+
+    tr:nth-child(even) {
+        background-color: rgba(248, 248, 248, 0.8);
+    }
+
+    tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    </style>
+</head>
+<body>
+    <h1>Seen Movies Database</h1>
+    
+    <a href="index.html">
+        <img src="back-arrow-img.png" alt="Back Button">
+    </a>
+
+    <div class="controls_container">
+        <input class="searchBar" type="text" id="searchInput" onkeyup="filterFunction()" placeholder="Search for anything">
+        <div class="dropdown_container">
+            <label for="dropDownSortMenu">Sort by</label>
+            <select id="dropDownSortMenu" name="sortingMenu">
+            <option value="alphabetically">Alphabetical</option>
+            <option value="ratingHtoL">Ratings (Highest ==> Lowest)</option>
+            <option value="ratingLtoH">Ratings (Lowest ==> Highest)</option>
+            </select>
+        </div>
+    </div>
+    <div class="table_container">
+        <table id="movieTable"></table> 
+    </div>
+     
+<script src="papaparse.min.js"></script>
+<script>
+    Papa.parse("tblActors.csv", {
+    download: true,
+    header: true, //is the first row of the csv file a header(yes it is)
+    complete: function(results) { //when its finished parsing
+        const data = results.data;
+        const headers = Object.keys(data[0]); //what are the headers called
+        
+        
+        let headerHTML = "<tr>";
+        headers.forEach(header => {
+            headerHTML += `<th>${header}</th>`;
+        });
+        headerHTML += "</tr>";
+        
+        
+        let bodyHTML = "";
+        data.forEach(row => {
+            bodyHTML += "<tr>";
+            headers.forEach(header => {
+                bodyHTML += `<td>${row[header]}</td>`;
+            });
+            bodyHTML += "</tr>";
+        });
+        
+        
+        document.getElementById("movieTable").innerHTML = headerHTML + bodyHTML;
+    }
+});
+</script>
+
+<script>
+    function filterFunction() {
+        let i, j, td
+        let input = document.getElementById("searchInput");
+        let filter = input.value.toUpperCase();
+        let table = document.getElementById("movieTable");
+        let tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            let rowMatch = false;
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                let textValue = td[j].textContent.toUpperCase() || td[j].innerText.toUpperCase(); //retrieve cell info and sanitise it
+                if (textValue.indexOf(filter) > -1) { //if the index is higher than -1, its present in the filter, so show it
+                    rowMatch = true;
+                    break;
+                }
+            }
+            if (rowMatch) {
+                tr[i].style.display = ""; //if the row matched, show it
+            } 
+            else 
+            {
+                tr[i].style.display = "none"; //if it didn't, hide it
+            }
+        }
+    }
+</script>
+</body>
+</html>

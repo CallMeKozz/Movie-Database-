@@ -1,0 +1,11 @@
+Movie_id, Title, Director_id, Genre_id, Year_released, Rating
+1, White Chicks, Wayans, 5, 2004, 8/10
+2, Men In Black, Sonnenfield, 5, 1997, 8/10
+3, Cocaine Bear, Banks, 1, 2023, 6/10
+4, Everything Everywhere All At Once, Scheinert, 2, 2022, 10/10
+5, The LEGO Movie, Miller, 3, 2014, 9/10
+6, Piece by Piece, Neville, 6, 2024, 8/10
+7, All Quiet On The Western Front, Berger, 7, 2022, 9/10
+8, Avengers: Infinity War, Russo, 2, 2018, 7/10
+9, Titanic, Cameron, 8, 1997, 4/10
+10, Toy Story, Lasseter, 3, 1995, 8/10

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    
+
+    <style>
+    body {
+        background-image: url(movieDbBackground.jpg); /*CSS tells the body of the website to have this as its background image*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh
+    }
+    a { /*All elements should follow this style*/
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        background-color:black;
+        transition-duration: 0.4s;
+        color: antiquewhite;
+        font-weight: 1000;
+        font-size: 300%;
+        width: 50%;
+        height: 100%;
+        border: 2px solid white; /*Clean border*/
+        border-radius: 8px; /*Rounded border*/
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3); /*Adds some shadow for the box*/
+        text-decoration: none; /*Gets rid of ugly hyperlink styling*/
+    }
+
+    h1 {
+        background-color: antiquewhite;
+        color: black;
+        padding: 20px;
+        border: 3px solid #333;
+        border-radius: 10px;
+        text-align: center;
+    }
+    a:hover {
+        background-color:green;
+        cursor: pointer;
+    }
+
+    .buttonGrid {
+        top: -8vh;
+        position: relative;
+        margin: auto;
+        display: flex;
+        height: 30vh;
+        width: 40vw;
+    }
+
+   
+
+    
+
+    </style>
+
+</head>
+<body>
+    <h1>Seen Movies Database</h1>
+    <div class="buttonGrid">
+        <a href="movieDbPage.html" id="movieDbButton" class="movieButton">Movies</a>
+        <a href="directorDbPage.html" id="directorDbButton" class="directorButton">Directors</a>
+        <a href="actorDbPage.html" id="actorDbButton" class="actorButton">Actors</a>
+        <a href="genreDbPage.html" id="genreDbButton" class="genreButton">Genres</a>
+    </div>
+
+<script src="papaparse.min.js"></script>
+</body>
+</html>
