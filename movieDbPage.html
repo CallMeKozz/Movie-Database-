@@ -216,31 +216,31 @@
     function filterFunction(type) {
         
         let table = document.getElementById("movieTable");
-        let tr = table.getElementsByTagName("td");
-        
+        let rows = Array.from(table.getElementsByTagName("tr")); //gets rows from table and makes it an array so its easy to convert
         if (type == "abc") { //if the alphabetical order sort was clicked
-            let title_array = []; //obtain the second value (title/1st index) of each row and save it to an array to sort
-            let td
-        for (i = 0; j < table.length; i++) {
-            tr = table[i]
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < 3; j++) {
-            if (j == 1) {
-                title_array.push(td[j])
-            };
+            let row_data = []; //obtain the second value (title/1st index) of each row and save it to an array to sort
+        for (i = 0; i < table.rows.length; i++) {
+            let cells = rows[i].getElementsByTagName("td");
+            if (cells.length > 1) { //dont touch it if its blank(just incase)
+                row_data.push({ //add the following to the row data array
+                    title: cells[1].textContent.trim(), //the first cells index as the actual title to sort
+                    row: rows[i] //the row number(just to keep track of the number of rows when we want to append the table at the end)
+                });
+
+            }
         };
 
-        title_array.sort() // sorts all titles by alphabetical order into an array
+        row_data.sort((a, b) => a.title.localeCompare(b.title)); // will return either 1 if b's title should compare before a's, 0 if they are the exact same, and -1 if a's title comes before b's
+        //then, that number is put into the sort function to determine the correct order
 
-        
+        row_data.forEach(item => {
+            table.appendChild(item.row); //go through every row in the ordered array and change the original tables child to that row in order
+        });
+        }
+        else if (type == "ratingHtoL") {
 
         }
-        
-        }
-        else if (type="ratingHtoL") {
-
-        }
-        else if (type="ratingLtoH") {
+        else if (type == "ratingLtoH") {
 
         }
     }
