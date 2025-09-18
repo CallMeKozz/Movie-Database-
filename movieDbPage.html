@@ -142,8 +142,8 @@
             <select id="dropDownSortMenu" name="sortingMenu">
             <option value="default">Click to Sort</option>
             <option value="alphabetically" onclick="filterFunction('abc')">Alphabetical</option>
-            <option value="ratingHtoL">Ratings (Highest ==> Lowest)</option>
-            <option value="ratingLtoH">Ratings (Lowest ==> Highest)</option>
+            <option value="ratingHtoL" onclick="filterFunction('ratingHtoL')">Ratings(Highest ==> Lowest)</option>
+            <option value="ratingLtoH" onclick="filterFunction('ratingLtoH')">Ratings (Lowest ==> Highest)</option>
             </select>
         </div>
     </div>
@@ -238,10 +238,70 @@
         });
         }
         else if (type == "ratingHtoL") {
+            let row_data = [];
+            for (let i = 0; i < table.rows.length; i++) { 
+                let cells = rows[i].getElementsByTagName("td");
+                if (cells.length > 5) { 
+                    let ratingNumStr
+                    let ratingText = cells[5].textContent.trim(); 
+                    let rating1stChar = ratingText[0]; //get the first character of the rating(the only one that changes in different rows)
+                    let rating2ndChar = ratingText[1]; //check to see what the second char is
+                    if (rating2ndChar != "/") {//if its not a single digit ranking(10/10)
+                        ratingNumStr = rating1stChar + rating2ndChar
+                    }
+                    else {
+                        ratingNumStr = rating1stChar
+                    }
+                    let ratingNum = parseFloat(ratingNumStr);
+                    
+                    row_data.push({
+                        rating: ratingNum,
+                        row: rows[i]
+                    });
+                }
+            }
 
+       
+            row_data.sort((a, b) => b.rating - a.rating);
+            
+  
+            row_data.forEach(item => {
+                table.appendChild(item.row);
+            });
         }
+        
         else if (type == "ratingLtoH") {
+            let row_data = [];
+            for (let i = 0; i < table.rows.length; i++) { 
+                let cells = rows[i].getElementsByTagName("td");
+                if (cells.length > 5) { 
+                    let ratingNumStr
+                    let ratingText = cells[5].textContent.trim(); 
+                    let rating1stChar = ratingText[0]; //get the first character of the rating(the only one that changes in different rows)
+                    let rating2ndChar = ratingText[1]; //check to see what the second char is
+                    if (rating2ndChar != "/") {//if its not a single digit ranking(10/10)
+                        ratingNumStr = rating1stChar + rating2ndChar
+                    }
+                    else {
+                        ratingNumStr = rating1stChar
+                    }
+                    let ratingNum = parseFloat(ratingNumStr);
+                    
+                    row_data.push({
+                        rating: ratingNum,
+                        row: rows[i]
+                    });
+                }
+            }
 
+           
+            row_data.sort((a, b) => b.rating - a.rating);
+            row_data.reverse(); //literally the only thing added in the descending code, just flips the order around
+            
+     
+            row_data.forEach(item => {
+                table.appendChild(item.row);
+            });
         }
     }
 </script>
